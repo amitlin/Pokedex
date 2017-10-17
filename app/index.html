@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>PokeDex</title>
+    <style media="screen">
+    [v-cloak] {
+      display: none;
+    }
+    </style>
+  </head>
+  <body>
+    <div id="app" v-cloak>
+      <h1>{{ pokename }}</h1>
+      <h2>{{ suggestPokemon }}</h2>
+      <input v-model="pokename" placeholder="Search..." />
+    </div>
+
+    <script src="dist/bundle.js"></script>
+  </body>
+</html>
