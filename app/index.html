@@ -12,8 +12,11 @@
   <body>
     <div id="app" v-cloak>
       <h1>{{ pokename }}</h1>
-      <h2>{{ suggestPokemon }}</h2>
-      <input v-model="pokename" placeholder="Search..." />
+      <input v-model="searchPokemon" placeholder="Search..." />
+      <li v-for="pokemon in suggestedPokemons">
+        <h2>{{ pokemon.identifier }}</h2>
+        <img :src="'assets/images/pokemon/global-link/' + pokemon.id + '.png'" alt="">
+      </li>
     </div>
 
     <script src="dist/bundle.js"></script>

@@ -9,22 +9,29 @@ let app = new Vue({
     db: undefined,
     loadingData: true,
     pokename: "",
-    suggested: ""
+    searchPokemon: undefined,
+    suggestedPokemons: undefined
   },
-  computed: {
-    suggestPokemon: function() {
+  watch: {
+    searchPokemon: function(pokename) {
       if (this.loadingData) return;
-      if (this.pokename === "") return;
+      if (pokename === undefined || pokename === null || pokename === "") return;
 
-      const matches = _.filter(this.db, o => o.identifier.includes(this.pokename)).map(o => o.identifier);
-      return matches.length !== 0 ? matches : undefined;
+      this.suggestPokemons();
     }
+  },
+  methods: {
+    // this is ran a second after the last input
+    suggestPokemons: _.debounce(function() {
+      this.suggestedPokemons = _.filter(this.db, o => o.identifier.startsWith(this.searchPokemon));
+    }, 500)
   },
 
   created: async function() {
     const response = await axios.get("assets/db/formattedDB.json");
+
+    // After db download finished
     this.db = response.data;
-    console.log(this.db);
     this.loadingData = false;
   }
 })
