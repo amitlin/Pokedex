@@ -4,9 +4,9 @@
   "description": "Pokedex",
   "main": "index.js",
   "scripts": {
-    "build": "browserify --debug app/index.js -o app/dist/bundle.js",
-    "server": "beefy --cwd app/ app/index.js:dist/bundle.js --live",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "webpack --progress -p",
+    "watch": "webpack --progress --watch",
+    "server": "webpack-dev-server --open"
   },
   "author": "",
   "license": "ISC",
@@ -14,12 +14,13 @@
     "axios": "^0.16.2",
     "bluebird": "^3.5.1",
     "lodash": "^4.17.4",
-    "sqlite": "^2.8.0",
-    "sqlite3": "^3.1.13",
     "vue": "^2.5.2"
   },
   "browser": {
     "vue": "vue/dist/vue.common.js"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "webpack": "^3.8.1",
+    "webpack-dev-server": "^2.9.2"
+  }
 }

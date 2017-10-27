@@ -8,15 +8,156 @@
       display: none;
     }
     </style>
+    <link rel="stylesheet" href="./css/master.css">
+    <link href="https://fonts.googleapis.com/css?family=Saira+Extra+Condensed" rel="stylesheet">
   </head>
   <body>
     <div id="app" v-cloak>
-      <h1>{{ pokename }}</h1>
+      <div class="pokedex">
+        <div class="pokedex-main">
+          <div class="pokedex-main-upper-shape">
+            <div class="upper-shape-top">
+              <div class="upper-shape-mask"></div>
+              <div class="blue-circle">
+                <div class="blue-circle-inner">
+                  <div class="blue-circle-reflection"></div>
+                </div>
+              </div>
+            </div>
+            <div class="upper-shape-bottom">
+              <div class="upper-shape-bottom-inner"></div>
+            </div>
+          </div>
+
+          <div class="pokedex-main-content">
+
+            <div class="pokemon-image-frame">
+              <div class="pokemon-image-frame-top">
+                <div class="circle1"></div>
+                <div class="circle2"></div>
+              </div>
+
+              <div class="pokemon-image-frame-main">
+                <img v-if="renderPokemon" :src="'assets/images/pokemon/global-link-compressed/' + this.selectedPokemon.id + '.png'" alt="">
+              </div>
+
+              <div class="pokemon-image-frame-bottom">
+                <div class="circle"></div>
+              </div>
+            </div>
+
+
+            <div class="pokedex-main-bottom">
+              <div class="button-circle-container">
+                <div class="button-circle"></div>
+              </div>
+
+              <div class="middle-part">
+                <div class="two-buttons">
+                  <div class="button-left"></div>
+                  <div class="button-right"></div>
+                </div>
+
+                <div class="id-screen">
+                  <div class="id-number">{{ selectedPokemon.id }}</div>
+                </div>
+              </div>
+
+              <div class="arrow-keys">
+                <div class="left-right"></div>
+                <div class="up-down"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="pokedex-hinge">
+          <div class="pokedex-hinge-top"></div>
+          <div class="pokedex-hinge-bottom"></div>
+        </div>
+
+        <div class="pokedex-flip">
+
+          <div class="pokedex-flip-upper-shape">
+            <div class="upper-shape-inner"></div>
+          </div>
+          <div class="pokedex-flip-main">
+            <div class="pokedex-flip-border-mask"></div>
+            <div class="pokedex-flip-main-content">
+              <div class="pokemon-data-screen">
+                <div class="name-and-types">
+                  <div class="name">
+                    {{ selectedPokemon.identifier }}
+                  </div>
+
+                  <div class="types">
+                    {{ selectedPokemon.types }}
+                  </div>
+                </div>
+
+                <div class="description">
+                  {{ selectedPokemon.description }}
+                </div>
+
+              </div>
+
+              <div class="two-buttons">
+                <div class="button-left"></div>
+                <div class="button-right"></div>
+              </div>
+
+              <div class="pokemon-stat-matrix">
+                <div class="pokemon-stat-row">
+                  <div class="pokemon-stat">
+                    <div class="stat-indicator">HP</div>
+                    <div class="stat" v-if="renderPokemon">{{ selectedPokemon.stats.HP }}</div>
+                  </div>
+                  <div class="pokemon-stat">
+                    <div class="stat-indicator">ATT</div>
+                    <div class="stat" v-if="renderPokemon">{{ selectedPokemon.stats.Attack }}</div>
+                  </div>
+                  <div class="pokemon-stat">
+                    <div class="stat-indicator">SA</div>
+                    <div class="stat" v-if="renderPokemon">{{ selectedPokemon.stats["Special Attack"] }}</div>
+                  </div>
+                </div>
+
+                <div class="pokemon-stat-row">
+                  <div class="pokemon-stat">
+                    <div class="stat-indicator">SPD</div>
+                    <div class="stat" v-if="renderPokemon">{{ selectedPokemon.stats.Speed }}</div>
+                  </div>
+                  <div class="pokemon-stat">
+                    <div class="stat-indicator">DEF</div>
+                    <div class="stat" v-if="renderPokemon">{{ selectedPokemon.stats.Defense }}</div>
+                  </div>
+                  <div class="pokemon-stat">
+                    <div class="stat-indicator">SD</div>
+                    <div class="stat" v-if="renderPokemon">{{ selectedPokemon.stats["Special Defense"] }}</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="pokemon-specs">
+                <div class="pokemon-spec">
+
+                </div>
+
+                <div class="pokemon-spec">
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       <input v-model="searchPokemon" placeholder="Search..." />
       <li v-for="pokemon in suggestedPokemons">
-        <h2>{{ pokemon.identifier }}</h2>
-        <img :src="'assets/images/pokemon/global-link/' + pokemon.id + '.png'" alt="">
+        <pokelist :pokemon="pokemon"></pokelist>
       </li>
+
+    <div>
+      {{ selectedPokemon }}
+    </div>
     </div>
 
     <script src="dist/bundle.js"></script>
