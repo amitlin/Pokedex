@@ -5,21 +5,23 @@ const _ = require("lodash");
 
 
 // components
-const pokelist = require('./components/pokelist/component.js');
+const pokelist = require('./components/pokelist/component');
+const pokemenu = require('./components/pokeMenu/component');
 
 
 let app = new Vue({
   el: "#app",
   components: {
-    pokelist
+    pokelist,
+    pokemenu
   },
   data: {
     db: undefined,
     loading: true,
     searchPokemon: "",
     suggestedPokemons: [],
-    selectedPokemon: {},
-    renderPokemon: false
+    selectedPokemon: "",
+    renderPokemon: false,
   },
   watch: {
     // We use' 'watch' for this because 'computed' and 'methods' expect an immediate return,
@@ -28,20 +30,7 @@ let app = new Vue({
       if (this.loading) return;
 
       pokename = pokename.toLowerCase();
-      console.log(pokename);
       this.suggestPokemons();
-    },
-    suggestedPokemons: function(pokemonList) {
-      if (pokemonList.length === 0) {
-        this.selectedPokemon = "";
-        return;
-      }
-
-      this.selectedPokemon = pokemonList[0];
-    },
-    selectedPokemon: function(selected) {
-      if (!_.isEmpty(selected)) this.renderPokemon = true;
-      else this.renderPokemon = false;
     }
   },
 
@@ -49,12 +38,26 @@ let app = new Vue({
     // this is ran 500ms after the last keyboard input
     suggestPokemons: _.debounce(function() {
       if (this.searchPokemon === "") {
-        this.suggestedPokemons = [];
+        this.clearSelectedPokemon();
         return;
       }
 
       this.suggestedPokemons = _.filter(this.db, o => o.identifier.startsWith(this.searchPokemon));
-    }, 500)
+
+      if (this.suggestedPokemons.length === 0) {
+        this.clearSelectedPokemon();
+        return;
+      }
+
+      this.selectedPokemon = this.suggestedPokemons[0];
+      this.renderPokemon = true;
+    }, 500),
+
+    clearSelectedPokemon: function() {
+      this.suggestedPokemons = [];
+      this.selectedPokemon = "";
+      this.renderPokemon = false;
+    },
   },
 
   created: async function() {
@@ -64,4 +67,4 @@ let app = new Vue({
     this.db = response.data;
     this.loading = false;
   }
-})
+});
