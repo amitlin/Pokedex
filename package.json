@@ -4,7 +4,7 @@
   "description": "Pokedex",
   "main": "index.js",
   "scripts": {
-    "build": "webpack --progress -p",
+    "build": "webpack --progress",
     "watch": "webpack --progress --watch",
     "server": "webpack-dev-server --open"
   },
