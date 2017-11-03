@@ -1069,7 +1069,6 @@ let app = new Vue({
       this.searchPokemon = pokemon.identifier;
       this.selectedPokemon = pokemon;
       this.displayPokemon = true;
-      console.log(this.selectedPokemon);
     }
   },
 
@@ -1081,7 +1080,6 @@ let app = new Vue({
     this.loading = false;
   }
 });
-
 
 /***/ }),
 /* 11 */
