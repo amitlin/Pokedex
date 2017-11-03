@@ -38,7 +38,7 @@
               </div>
 
               <div class="pokemon-image-frame-main">
-                <img v-if="renderPokemon" :src="'assets/images/pokemon/global-link-compressed/' + this.selectedPokemon.id + '.png'" alt="">
+                <img v-if="displayPokemon" :src="'assets/images/pokemon/global-link-compressed/' + this.selectedPokemon.id + '.png'" alt="">
               </div>
 
               <div class="pokemon-image-frame-bottom">
@@ -59,7 +59,7 @@
                 </div>
 
                 <div class="id-screen">
-                  <div class="id-number">{{ selectedPokemon.id }}</div>
+                  <div v-if="displayPokemon" class="id-number">{{ selectedPokemon.id }}</div>
                 </div>
               </div>
 
@@ -84,18 +84,25 @@
             <div class="pokedex-flip-border-mask"></div>
             <div class="pokedex-flip-main-content">
               <div class="pokemon-data-screen">
-                <div class="name-and-types">
-                  <div class="name">
-                    {{ selectedPokemon.identifier }}
-                  </div>
+                <input class="name" v-model="searchPokemon" @focus="displayPokemon = false" placeholder="Search..." />
 
-                  <div class="types">
-                    {{ selectedPokemon.types }}
-                  </div>
+                <div v-if="!displayPokemon">
+                  <ul class="suggested-pokemon">
+                    <li v-for="pokemon in searchResults">
+                      <a href="#" @click="choosePokemon(pokemon)">{{ pokemon.identifier }}</a>
+                    </li>
+                  </ul>
                 </div>
 
-                <div class="description">
-                  {{ selectedPokemon.description }}
+                <div v-if="displayPokemon" class="pokemon-info">
+                  <div class="types">
+                    <poke-type :types="selectedPokemon.types"></poke-type>
+                  </div>
+
+
+                  <div class="description">
+                    {{ selectedPokemon.description }}
+                  </div>
                 </div>
 
               </div>
@@ -109,30 +116,30 @@
                 <div class="pokemon-stat-row">
                   <div class="pokemon-stat">
                     <div class="stat-indicator">HP</div>
-                    <div class="stat" v-if="renderPokemon">{{ selectedPokemon.stats.HP }}</div>
+                    <div class="stat" v-if="displayPokemon">{{ selectedPokemon.stats.HP }}</div>
                   </div>
                   <div class="pokemon-stat">
                     <div class="stat-indicator">ATT</div>
-                    <div class="stat" v-if="renderPokemon">{{ selectedPokemon.stats.Attack }}</div>
+                    <div class="stat" v-if="displayPokemon">{{ selectedPokemon.stats.Attack }}</div>
                   </div>
                   <div class="pokemon-stat">
                     <div class="stat-indicator">SA</div>
-                    <div class="stat" v-if="renderPokemon">{{ selectedPokemon.stats["Special Attack"] }}</div>
+                    <div class="stat" v-if="displayPokemon">{{ selectedPokemon.stats["Special Attack"] }}</div>
                   </div>
                 </div>
 
                 <div class="pokemon-stat-row">
                   <div class="pokemon-stat">
                     <div class="stat-indicator">SPD</div>
-                    <div class="stat" v-if="renderPokemon">{{ selectedPokemon.stats.Speed }}</div>
+                    <div class="stat" v-if="displayPokemon">{{ selectedPokemon.stats.Speed }}</div>
                   </div>
                   <div class="pokemon-stat">
                     <div class="stat-indicator">DEF</div>
-                    <div class="stat" v-if="renderPokemon">{{ selectedPokemon.stats.Defense }}</div>
+                    <div class="stat" v-if="displayPokemon">{{ selectedPokemon.stats.Defense }}</div>
                   </div>
                   <div class="pokemon-stat">
                     <div class="stat-indicator">SD</div>
-                    <div class="stat" v-if="renderPokemon">{{ selectedPokemon.stats["Special Defense"] }}</div>
+                    <div class="stat" v-if="displayPokemon">{{ selectedPokemon.stats["Special Defense"] }}</div>
                   </div>
                 </div>
               </div>
@@ -150,14 +157,7 @@
           </div>
         </div>
       </div>
-      <input v-model="searchPokemon" placeholder="Search..." />
-      <li v-for="pokemon in suggestedPokemons">
-        <pokelist :pokemon="pokemon"></pokelist>
-      </li>
 
-    <div>
-      {{ selectedPokemon }}
-    </div>
     </div>
 
     <script src="dist/bundle.js"></script>
